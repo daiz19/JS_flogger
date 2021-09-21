@@ -25,13 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //変数
     let currentIndex = 76
-    let currentTime = 5
+    let currentTime = 20
     let timerId
 
     // ゲームスタートのファンクション
     startBtn.addEventListener('click', () => {
         if(timerId) {
             clearInterval(timerId)
+            timerId = ""
+            document.removeEventListener('keyup', moveFrog)
         } else {
             timerId = setInterval(movePieces, 1000) // 部品
             document.addEventListener('keyup', moveFrog) //カエル
@@ -44,12 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
         timeLeft.textContent = currentTime
         lose() // Lose
         autoMoveCars() // 車
-        automoveLogs() // 木の板
+        autoMoveLogs() // 木の板
         moveWithLogLeft() // 木の板と左
-        moveWIthLogRight() //  木の板と右に
+        moveWithLogRight() //  木の板と右に
     }
 
-    
 
     // カエルを動かすファンクション
     function moveFrog(e) {
@@ -99,13 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // 車を動かすファンクション
+    // ループ処理で車を動かすファンクション
     function autoMoveCars() {
         carsLeft.forEach(carLeft => moveCarLeft(carLeft))
         carsRight.forEach(carRight => moveCarRight(carRight))
     }
 
-    // ループ処理で車を左に動かすファンクション
+    // 車を左に動かすファンクション
     function moveCarLeft(carLeft) {
         switch (true) {
             case carLeft.classList.contains('c1'):
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ループ処理で車を右に動かすファンクション
+    // 車を右に動かすファンクション
     function moveCarRight(carRight) {
         switch (true) {
             case carRight.classList.contains('c1'):
@@ -141,6 +142,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    // ループ処理で木の板を動かすファンクション
+    function autoMoveLogs() {
+        logsLeft.forEach(logLeft => moveLogLeft(logLeft))
+        logsRight.forEach(logRight => moveLogRight(logRight))
+    }
     
-    
+    // 木の板を左に動かすファンクション
+    function moveLogLeft(logLeft) {
+        switch(true) {
+            case logLeft.classList.contains('l1'):
+                logLeft.classList.remove('l1')
+                logLeft.classList.add('l2')
+                break
+            case logLeft.classList.contains('l2'):
+                logLeft.classList.remove('l2')
+                logLeft.classList.add('l3')
+                break
+            case logLeft.classList.contains('l3'):
+                logLeft.classList.remove('l3')
+                logLeft.classList.add('l4')
+                break
+            case logLeft.classList.contains('l4'):
+                logLeft.classList.remove('l4')
+                logLeft.classList.add('l5')
+                break
+            case logLeft.classList.contains('l5'):
+                logLeft.classList.remove('l5')
+                logLeft.classList.add('l1')
+                break  
+        }
+    }
+
+    // 木の板を右に動かすファンクション
+    function moveLogRight(logRight) {
+        switch(true) {
+            case logRight.classList.contains('l1'):
+                logRight.classList.remove('l1')
+                logRight.classList.add('l5')
+                break
+            case logRight.classList.contains('l2'):
+                logRight.classList.remove('l2')
+                logRight.classList.add('l1')
+                break
+            case logRight.classList.contains('l3'):
+                logRight.classList.remove('l3')
+                logRight.classList.add('l2')
+                break
+            case logRight.classList.contains('l4'):
+                logRight.classList.remove('l4')
+                logRight.classList.add('l3')
+                break
+            case logRight.classList.contains('l5'):
+                logRight.classList.remove('l5')
+                logRight.classList.add('l4')
+                break  
+        }
+    }
+
+    // 木の板にカエルが乗ったら”左”に動くファンクション
+    function moveWithLogLeft() {
+        if (currentIndex >= 27 && currentIndex <35) {
+            squares[currentIndex].classList.remove('frog')
+            currentIndex += 1
+            squares[currentIndex].classList.add('frog')
+        }
+    }
+
+    // 木の板にカエルが乗ったら”右”に動くファンクション
+    function moveWithLogRight() {
+        if (currentIndex > 18 && currentIndex <= 26) {
+            squares[currentIndex].classList.remove('frog')
+            currentIndex -= 1
+            squares[currentIndex].classList.add('frog')
+        }
+    }
+
 })
