@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', () => {
         if(timerId) {
             clearInterval(timerId)
-            timerId = ""
+            timerId = null
             document.removeEventListener('keyup', moveFrog)
         } else {
             timerId = setInterval(movePieces, 1000) // 部品
